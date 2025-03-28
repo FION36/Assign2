@@ -252,3 +252,68 @@ body {
 .dark-mode .login-modal button {
     border: 1px solid #777;
 }
+
+/* Add these new styles */
+.progress-container {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    border-radius: 15px;
+    margin-top: 20px;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.progress-container h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.progress-stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.stat-item {
+    flex: 1;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+}
+
+.stat-item span:first-child {
+    display: block;
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.stat-item span:last-child {
+    display: block;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Add dark mode support */
+.dark-mode .progress-container {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.dark-mode .progress-container h3 {
+    color: #fff;
+}
+
+.dark-mode .stat-item {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .stat-item span:first-child {
+    color: #ccc;
+}
+
+.dark-mode .stat-item span:last-child {
+    color: #fff;
+}
