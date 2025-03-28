@@ -42,8 +42,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginModal = document.getElementById("login-modal");
     const closeLoginModal = document.getElementById("close-login-modal");
     const loginButton = document.getElementById("login-button");
+    const registerButton = document.getElementById("register-button");
     const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
 
+    // Add all your event listeners here
     loginIcon.addEventListener("click", () => {
         loginModal.style.display = "block";
     });
@@ -53,46 +56,43 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     loginButton.addEventListener("click", async () => {
-        const email = emailInput.value.trim();
-
-        if (!email) {
-            alert("Please enter your email.");
-            return;
-        }
-
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        
         try {
-            const { error } = await supabase.auth.signInWithOtp({ email });
-
-            if (error) throw error;
-
-            alert("A login link has been sent to your email. Please check your inbox.");
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            })
+            
+            if (error) throw error
+            
+            console.log('Logged in:', data)
             loginModal.style.display = "none";
         } catch (error) {
-            console.error("Error:", error.message);
-            alert("Login failed: " + error.message);
+            console.error('Error:', error.message)
+            alert('Login failed: ' + error.message)
         }
     });
 
-    // Save user to database after authentication
-    supabase.auth.onAuthStateChange(async (event, session) => {
-        if (event === "SIGNED_IN" && session) {
-            const user = session.user;
-
-            try {
-                const { data, error } = await supabase
-                    .from("User")
-                    .upsert({
-                        user_id: user.id,
-                        email: user.email,
-                        created_at: new Date().toISOString()
-                    });
-
-                if (error) throw error;
-
-                console.log("User saved to database:", data);
-            } catch (error) {
-                console.error("Error saving user to database:", error.message);
-            }
+    registerButton.addEventListener("click", async () => {
+        const email = emailInput.value;
+        const password = passwordInput.value;
+        
+        try {
+            const { data, error } = await supabase.auth.signUp({
+                email: email,
+                password: password
+            })
+            
+            if (error) throw error
+            
+            console.log('Signed up:', data)
+            loginModal.style.display = "none";
+            alert('Please check your email to confirm your account')
+        } catch (error) {
+            console.error('Error:', error.message)
+            alert('Registration failed: ' + error.message)
         }
     });
 
